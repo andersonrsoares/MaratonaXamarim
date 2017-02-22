@@ -1,8 +1,15 @@
 ﻿using System;
+
 namespace FormAssistControl
 {
-	public class Student:ObservableBaseObject
+	public class Student:ObservableBaseObject,IKeyObject
 	{
+		public string Key
+		{
+			get;
+			set;
+		}
+
 		public Student()
 		{
 		}
@@ -46,5 +53,7 @@ namespace FormAssistControl
 			get { return average; }
 			set { average = value; OnPropertyChaged();}
 		}
+
+
 	}
 }

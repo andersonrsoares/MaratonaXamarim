@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace FormAssistControl
 {
@@ -7,7 +8,7 @@ namespace FormAssistControl
 		public App()
 		{
 			InitializeComponent();
-
+			Debug.WriteLine("App()");
 			MainPage = new NavigationPage(new FormAssistControlPage());
 		}
 

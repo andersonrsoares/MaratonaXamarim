@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FormAssistControl
 {
@@ -11,11 +13,18 @@ namespace FormAssistControl
 
 		public static StudentDirectory LoadStudentDirectory()
 		{
+			DatabaseManager db = new DatabaseManager();
 
-
-			ObservableCollection<Student> students = new ObservableCollection<Student>();
+			ObservableCollection<Student> students = new ObservableCollection<Student>(db.GetAllItems<Student>()); //new ObservableCollection<Student>();
 			StudentDirectory studentDirectory = new StudentDirectory();
 
+			if (students.Any()) {
+				Debug.WriteLine("Any() = true");
+				studentDirectory.Students = students;
+				return studentDirectory;
+			}
+
+			Debug.WriteLine("Any() = false");
 
 			students = new ObservableCollection<Student>();
 
@@ -35,9 +44,11 @@ namespace FormAssistControl
 				string group = rdn.Next(456, 458).ToString();
 				student.Group = group;
 				student.StudentNumber = rdn.Next(12384748, 32384748).ToString();
+				student.Key = student.StudentNumber;
 				student.Average = rdn.Next(100, 1000) / 10;
-
 				students.Add(student);
+
+				db.SaveValue<Student>(student);
 
 			}
 			studentDirectory.Students = students;
