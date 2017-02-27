@@ -12,6 +12,7 @@ using System.Diagnostics;
 
 namespace BeaconDemoiOS
 {
+	
 	public class BeaconLocateriOS : IBeaconLocater
 	{
 		CLLocationManager locationManager;
@@ -65,6 +66,13 @@ namespace BeaconDemoiOS
 
 		private void SetupBeaconRanging()
 		{
+			var settings = UIUserNotificationSettings.GetSettingsForTypes(
+				   UIUserNotificationType.Alert
+				   | UIUserNotificationType.Badge
+				   | UIUserNotificationType.Sound,
+				   new NSSet());
+			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+
 			locationManager = new CLLocationManager();
 			beacons = new List<BeaconItem>();
 			locationManager.RequestAlwaysAuthorization();
@@ -77,10 +85,13 @@ namespace BeaconDemoiOS
 			rBeaconRegion.NotifyOnEntry = true;
 			rBeaconRegion.NotifyOnExit = true;
 
+			locationManager.AllowsBackgroundLocationUpdates = true;
 			locationManager.RegionEntered += HandleRegionEntered;
 			locationManager.RegionLeft += HandleRegionLeft;
 			locationManager.DidDetermineState += HandleDidDetermineState;
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
+
+
 		}
 
 		void HandleRegionLeft(object sender, CLRegionEventArgs e)

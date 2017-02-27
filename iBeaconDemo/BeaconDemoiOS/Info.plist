@@ -32,5 +32,12 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>BeaconDemo</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
