@@ -31,7 +31,7 @@
 	<key>IS_GCM_ENABLED</key>
 	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<false/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:1020884024809:ios:a1b2d5abcccaf316</string>
 	<key>DATABASE_URL</key>

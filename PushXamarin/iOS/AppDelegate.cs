@@ -54,7 +54,9 @@ namespace PushXamarin.iOS
 
 			try
 			{
-				Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
+				var token = InstanceId.SharedInstance.Token;
+				Console.WriteLine($"Token: {token}");
+				ConnectToFCM();
 			}
 			catch (Exception ex)
 			{
@@ -165,6 +167,24 @@ namespace PushXamarin.iOS
 				else
 				{
 					ShowMessage("Success!", "Connected to FCM", fromViewController);
+					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
+				}
+			});
+		}
+
+		public static void ConnectToFCM()
+		{
+			Messaging.SharedInstance.Connect(error =>
+			{
+				if (error != null)
+				{
+					//ShowMessage("Unable to connect to FCM", error.LocalizedDescription);
+					Console.WriteLine("Unable to connect to FCM " + error.LocalizedDescription);
+				}
+				else
+				{
+					//ShowMessage("Success!", "Connected to FCM");
+					Console.WriteLine("Success! Connected to FCM");
 					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
 				}
 			});
