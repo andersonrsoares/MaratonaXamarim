@@ -7,6 +7,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Firebase.Database;
+using Firebase;
 
 namespace firebasedatabaseXamarin.Droid
 {
@@ -23,6 +25,45 @@ namespace firebasedatabaseXamarin.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			LoadApplication(new App());
+
+			FirebaseApp app = FirebaseApp.GetInstance(FirebaseApp.DefaultAppName);
+			firebaseDatabaseReference = FirebaseDatabase.GetInstance(app).GetReference("https://testefirebase-6bded.firebaseio.com/");
+			Query query = firebaseDatabaseReference.Child("users")
+			.OrderByChild("name")
+					.StartAt("anderson").EndAt("anderson");
+
+
+			query.AddValueEventListener(new MyValueListener()); 
+
+		}
+		DatabaseReference firebaseDatabaseReference;
+	
+	}
+
+	public class MyValueListener : IValueEventListener
+	{
+		public IntPtr Handle
+		{
+			get
+			{
+				return Handle;
+			}
+		}
+
+		public void Dispose()
+		{
+	
+		}
+
+		public void OnCancelled(DatabaseError error)
+		{
+			Log.d("mFirebase", "OnCancelled: " + error.ToString());
+		}
+
+		public void OnDataChange(DataSnapshot snapshot)
+		{
+	
+			Log.d("mFirebase", "onDataChange: " + snapshot.ToString());
 		}
 	}
 }
