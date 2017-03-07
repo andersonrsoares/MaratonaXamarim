@@ -151,46 +151,30 @@ namespace PushXamarin.iOS
 			// should be done.
 			//var refreshedToken = InstanceId.SharedInstance.Token;
 
-			ConnectToFCM();
+
+			ConnectToFCM(Window);
 
 			// TODO: If necessary send token to application server.
 		}
 
-		public static void ConnectToFCM(UIViewController fromViewController)
+		public static void ConnectToFCM(UIWindow window)
 		{
 			Messaging.SharedInstance.Connect(error =>
 			{
 				if (error != null)
 				{
-					ShowMessage("Unable to connect to FCM", error.LocalizedDescription, fromViewController);
+					ShowMessage("Unable to connect to FCM", error.LocalizedDescription,null,window);
 				}
 				else
 				{
-					ShowMessage("Success!", "Connected to FCM", fromViewController);
-					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
+					ShowMessage("Success!", "Connected to FCM",null,window);
+					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}",window);
 				}
 			});
 		}
 
-		public static void ConnectToFCM()
-		{
-			Messaging.SharedInstance.Connect(error =>
-			{
-				if (error != null)
-				{
-					//ShowMessage("Unable to connect to FCM", error.LocalizedDescription);
-					Console.WriteLine("Unable to connect to FCM " + error.LocalizedDescription);
-				}
-				else
-				{
-					//ShowMessage("Success!", "Connected to FCM");
-					Console.WriteLine("Success! Connected to FCM");
-					Console.WriteLine($"Token: {InstanceId.SharedInstance.Token}");
-				}
-			});
-		}
 
-		public static void ShowMessage(string title, string message, UIViewController fromViewController, Action actionForOk = null)
+		public static void ShowMessage(string title, string message, Action actionForOk = null,UIWindow window)
 		{
 			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
 			{
@@ -202,7 +186,7 @@ namespace PushXamarin.iOS
 						actionForOk();
 					}
 				}));
-				fromViewController.PresentViewController(alert, true, null);
+				window.RootViewController.PresentViewController(alert, true, null);
 			}
 			else
 			{
