@@ -9,11 +9,12 @@ using Android.Widget;
 using Android.OS;
 using Firebase.Database;
 using Firebase;
+using Android.Util;
 
 namespace firebasedatabaseXamarin.Droid
 {
 	[Activity(Label = "firebasedatabaseXamarin.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IValueEventListener
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -27,43 +28,31 @@ namespace firebasedatabaseXamarin.Droid
 			LoadApplication(new App());
 
 			FirebaseApp app = FirebaseApp.GetInstance(FirebaseApp.DefaultAppName);
-			firebaseDatabaseReference = FirebaseDatabase.GetInstance(app).GetReference("https://testefirebase-6bded.firebaseio.com/");
+			firebaseDatabaseReference = FirebaseDatabase.GetInstance(app).GetReferenceFromUrl("https://testefirebase-6bded.firebaseio.com/");
 			Query query = firebaseDatabaseReference.Child("users")
 			.OrderByChild("name")
 					.StartAt("anderson").EndAt("anderson");
 
 
-			query.AddValueEventListener(new MyValueListener()); 
+			query.AddValueEventListener(this); 
 
 		}
+
 		DatabaseReference firebaseDatabaseReference;
-	
-	}
-
-	public class MyValueListener : IValueEventListener
-	{
-		public IntPtr Handle
-		{
-			get
-			{
-				return Handle;
-			}
-		}
-
-		public void Dispose()
-		{
-	
-		}
-
 		public void OnCancelled(DatabaseError error)
 		{
-			Log.d("mFirebase", "OnCancelled: " + error.ToString());
+			Log.Debug("mFirebase", "OnCancelled: " + error.ToString());
 		}
 
 		public void OnDataChange(DataSnapshot snapshot)
 		{
-	
-			Log.d("mFirebase", "onDataChange: " + snapshot.ToString());
+
+			Log.Debug("mFirebase", "onDataChange: " + snapshot.ToString());
 		}
+	
 	}
+
+
+
+
 }
