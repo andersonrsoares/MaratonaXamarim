@@ -151,7 +151,7 @@ namespace PushXamarin.iOS
 			// should be done.
 			//var refreshedToken = InstanceId.SharedInstance.Token;
 
-			ConnectToFCM(Window.RootViewController);
+			ConnectToFCM();
 
 			// TODO: If necessary send token to application server.
 		}
