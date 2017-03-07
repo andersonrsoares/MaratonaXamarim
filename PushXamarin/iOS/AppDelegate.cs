@@ -12,7 +12,9 @@ namespace PushXamarin.iOS
 	[Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IUNUserNotificationCenterDelegate, IMessagingDelegate
 	{
-		public event EventHandler<UserInfoEventArgs> NotificationReceived;
+		public event EventHandler<UserInfoEventArgs> NotificationReceived = (sender, e) => { 
+			Console.WriteLine($"NotificationReceived: {e.ToString()}");
+		};
 
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
@@ -56,7 +58,7 @@ namespace PushXamarin.iOS
 			{
 				var token = InstanceId.SharedInstance.Token;
 				Console.WriteLine($"Token: {token}");
-				ConnectToFCM();
+				ConnectToFCM(Window);
 			}
 			catch (Exception ex)
 			{
@@ -71,7 +73,7 @@ namespace PushXamarin.iOS
 		{
 			// Use this method to release shared resources, save user data, invalidate timers and store the application state.
 			// If your application supports background exection this method is called instead of WillTerminate when the user quits.
-			Messaging.SharedInstance.Disconnect();
+			//Messaging.SharedInstance.Disconnect();
 			Console.WriteLine("Disconnected from FCM");
 		}
 
@@ -109,6 +111,7 @@ namespace PushXamarin.iOS
 		[Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
 		public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
 		{
+			Console.WriteLine("WillPresentNotification");
 			if (NotificationReceived == null)
 				return;
 
@@ -131,6 +134,8 @@ namespace PushXamarin.iOS
 		[Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
 		public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
 		{
+
+			Console.WriteLine("DidReceiveNotificationResponse");
 			if (NotificationReceived == null)
 				return;
 
@@ -174,7 +179,7 @@ namespace PushXamarin.iOS
 		}
 
 
-		public static void ShowMessage(string title, string message, Action actionForOk = null,UIWindow window)
+		public static void ShowMessage(string title, string message, Action actionForOk = null,UIWindow window=null)
 		{
 			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
 			{

@@ -18,9 +18,9 @@ namespace PushXamarin.iOS
 		{
 			base.ViewDidAppear (animated);
 
-			AppDelegate.ShowMessage ("Hey!", "To see this sample in action, send a notification from Firebase Console", this, () => {
-				AppDelegate.ConnectToFCM (this);
-			});
+			AppDelegate.ShowMessage ("Hey!", "To see this sample in action, send a notification from Firebase Console", () => {
+				AppDelegate.ConnectToFCM (null);
+			},null);
 		}
 
 		void AppDelegate_NotificationReceived (object sender, UserInfoEventArgs e)
