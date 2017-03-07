@@ -28,7 +28,7 @@ namespace firebasedatabaseXamarin.Droid
 			LoadApplication(new App());
 
 			FirebaseApp app = FirebaseApp.GetInstance(FirebaseApp.DefaultAppName);
-			firebaseDatabaseReference = FirebaseDatabase.GetInstance(app).GetReferenceFromUrl("https://testefirebase-6bded.firebaseio.com/");
+			firebaseDatabaseReference = FirebaseDatabase.GetInstance(app).GetReferenceFromUrl("https://testefirebase-6bded.firebaseio.com");//
 			Query query = firebaseDatabaseReference.Child("users")
 			.OrderByChild("name")
 					.StartAt("anderson").EndAt("anderson");
