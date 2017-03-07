@@ -35,8 +35,9 @@ namespace firebasedatabaseXamarin.Droid
 
 
 			query.AddValueEventListener(this); 
-
 		}
+
+
 
 		DatabaseReference firebaseDatabaseReference;
 		public void OnCancelled(DatabaseError error)
