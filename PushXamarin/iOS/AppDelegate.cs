@@ -92,7 +92,8 @@ namespace PushXamarin.iOS
 			// If you disable method swizzling, you'll need to call this method. 
 			// This lets FCM track message delivery and analytics, which is performed
 			// automatically with method swizzling enabled.
-			//Messaging.GetInstance ().AppDidReceiveMessage (userInfo);
+			Console.WriteLine("DidReceiveRemoteNotification");
+			Messaging.SharedInstance.AppDidReceiveMessage (userInfo);
 
 			if (NotificationReceived == null)
 				return;
@@ -142,6 +143,8 @@ namespace PushXamarin.iOS
 			var e = new UserInfoEventArgs { UserInfo = response.Notification.Request.Content.UserInfo };
 			NotificationReceived(this, e);
 		}
+
+
 
 		#endregion
 
