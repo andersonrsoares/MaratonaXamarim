@@ -37,10 +37,10 @@ namespace PushXamarin.iOS
 				});
 
 				// For iOS 10 display notification (sent via APNS)
-				UNUserNotificationCenter.Current.Delegate = this;
+				//UNUserNotificationCenter.Current.Delegate = this;
 
 				// For iOS 10 data message (sent via FCM)
-				Messaging.SharedInstance.RemoteMessageDelegate = this;
+				//Messaging.SharedInstance.RemoteMessageDelegate = this;
 			}
 			else
 			{
@@ -81,6 +81,8 @@ namespace PushXamarin.iOS
 		{
 			//ConnectToFCM (Window.RootViewController);
 		}
+
+
 
 		// To receive notifications in foregroung on iOS 9 and below.
 		// To receive notifications in background in any iOS version
